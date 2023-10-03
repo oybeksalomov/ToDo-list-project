@@ -40,40 +40,50 @@ export default {
   },
   data() {
     return {
-      todoList: [
-        {
-          id: 1,
-          body: "Uyga vazifalarni bajarish",
-          isDone: false
-        },
-        {
-          id: 2,
-          body: "Yugurishga chiqish",
-          isDone: false
-        }
-      ],
+      todoList: [],
       isVisible: false
     }
   },
   methods: {
     toggleIsDone(taskId) {
-      this.todoList.forEach(task => {
+      let existingArray = JSON.parse(localStorage.getItem('todoList'))
+      existingArray.forEach(task => {
         if(task.id === taskId) {
           task.isDone = !task.isDone
 
         }
       })
+      localStorage.setItem('todoList', JSON.stringify(existingArray))
+
+      this.todoList = JSON.parse(localStorage.getItem('todoList'))
     },
     deleteTask(taskId) {
       this.todoList = this.todoList.filter(task => task.id !== taskId)
+
+      let existingArray = JSON.parse(localStorage.getItem('todoList'))
+      let filteredArr = existingArray.filter(task => task.id !== taskId)
+      localStorage.setItem('todoList', JSON.stringify(filteredArr))
+
+      this.todoList = JSON.parse(localStorage.getItem('todoList'))
     },
     openModal() {
       this.isVisible = true
     },
     createTask(task) {
-      this.todoList.push(task)
+      let existingArray = JSON.parse(localStorage.getItem('todoList'))
+      existingArray.push(task)
+      localStorage.setItem('todoList', JSON.stringify(existingArray))
+
+      this.todoList = JSON.parse(localStorage.getItem('todoList'))
+
       this.isVisible = false
     }
+  },
+  mounted() {
+    if(!JSON.parse(localStorage.getItem('todoList'))) {
+      localStorage.setItem('todoList', JSON.stringify([]))
+    }
+    this.todoList = JSON.parse(localStorage.getItem('todoList'))
   }
 }
 </script>

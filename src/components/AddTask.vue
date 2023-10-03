@@ -6,7 +6,7 @@
         <input type="text" class="addTaskInput" v-model="task.body">
         <div class="addTaskBtnBox">
           <button class="addTaskBtn" @click="closeModal">Bekor qilish</button>
-          <button class="addTaskBtn" @click="createTask">Qo'shish</button>
+          <button class="addTaskBtn" @click="createTask" :disabled="!task.body">Qo'shish</button>
         </div>
       </form>
     </div>
@@ -34,6 +34,7 @@
     methods: {
       closeModal() {
         this.$emit('update:isShow', false)
+        this.task.body = ''
       },
       createTask() {
         this.task.id = Date.now()
@@ -42,6 +43,7 @@
           body: '',
           isDone: false
         }
+        
       }
     }
   }
