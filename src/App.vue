@@ -7,18 +7,21 @@
     </div>
 
     <div class="todoList">
-      <div 
-        class="todoItem"
-        v-for="item of todoList" 
-        :key="item.id"
-      >
-        <button class="tosoListCheckBtn" @click="toggleIsDone(item.id)">
-          <i class="fa-regular fa-circle-check fa-xl" v-if="item.isDone"></i>
-          <i class="fa-regular fa-circle fa-xl" v-else></i>
-        </button>
-        <p :class="item.isDone ? 'throughLine' : ''">{{ item.body }}</p>
-        <button class="todoListBtn" @click="deleteTask(item.id)"><i class="fa-regular fa-trash-can fa-xl"></i></button>
-      </div>
+      <TransitionGroup name="todoList">
+        <div 
+          class="todoItem"
+          v-for="item of todoList" 
+          :key="item.id"
+        >
+          <button class="tosoListCheckBtn" @click="toggleIsDone(item.id)">
+            <i class="fa-regular fa-circle-check fa-xl" v-if="item.isDone"></i>
+            <i class="fa-regular fa-circle fa-xl" v-else></i>
+          </button>
+          <p :class="item.isDone ? 'throughLine' : ''">{{ item.body }}</p>
+          <button class="todoListBtn" @click="deleteTask(item.id)"><i class="fa-regular fa-trash-can fa-xl"></i></button>
+        </div>
+      </TransitionGroup>
+
     </div>
 
     <button class="todoListAddBtn" @click="openModal">Vazifa qo'shish</button>
@@ -162,5 +165,13 @@ body {
   border-radius: 25px;
   cursor: pointer;
 }
+.todoList-enter-active,
+.todoList-leave-active {
+  transition: opacity 0.5s ease;
+}
 
+.todoList-enter-from,
+.todoList-leave-to {
+  opacity: 0;
+}
 </style>
