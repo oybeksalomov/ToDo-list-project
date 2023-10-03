@@ -3,7 +3,7 @@
   <div class="todoListBox">
 
     <div class="todoListTitleBox">
-      <h1 class="todoListTitle">Loyiha nomi</h1>
+      <input type="text" class="titleInput" v-model="projectTitle" >
     </div>
 
     <div class="todoList">
@@ -44,7 +44,8 @@ export default {
   data() {
     return {
       todoList: [],
-      isVisible: false
+      isVisible: false,
+      projectTitle: 'Loyiha Nomi' ,
     }
   },
   methods: {
@@ -82,11 +83,19 @@ export default {
       this.isVisible = false
     }
   },
+  watch: {
+    projectTitle(newValue) {
+      localStorage.setItem('projectTitle', newValue)
+      document.title = localStorage.getItem('projectTitle')
+    }
+  },
   mounted() {
     if(!JSON.parse(localStorage.getItem('todoList'))) {
       localStorage.setItem('todoList', JSON.stringify([]))
     }
     this.todoList = JSON.parse(localStorage.getItem('todoList'))
+    document.title = this.projectTitle
+    this.projectTitle = localStorage.getItem('projectTitle') || 'Loyiha Nomi'
   }
 }
 </script>
@@ -125,6 +134,18 @@ body {
   margin-top: 30px;
   background-color: #F5F5F5;
   
+}
+.titleInput {
+  background: transparent;
+  border: none;
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+}
+.titleInput:focus {
+  outline: none;
+  border: none;
 }
 .todoItem {
   width: 100%;
