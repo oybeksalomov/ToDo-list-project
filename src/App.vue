@@ -1,4 +1,5 @@
 <template>
+  
   <div class="todoListBox">
 
     <div class="todoListTitleBox">
@@ -20,19 +21,22 @@
       </div>
     </div>
 
-    
-
-    <button class="todoListAddBtn">Vazifa qo'shish</button>
+    <button class="todoListAddBtn" @click="openModal">Vazifa qo'shish</button>
 
   </div>
+  <AddTask 
+    v-model:isShow="isVisible" 
+    @create="createTask"
+  ></AddTask>
 </template>
 
 <script>
+import AddTask from './components/AddTask.vue'
 
 export default {
   name: 'App',
   components: {
-    
+    AddTask
   },
   data() {
     return {
@@ -47,7 +51,8 @@ export default {
           body: "Yugurishga chiqish",
           isDone: false
         }
-      ]
+      ],
+      isVisible: false
     }
   },
   methods: {
@@ -61,6 +66,13 @@ export default {
     },
     deleteTask(taskId) {
       this.todoList = this.todoList.filter(task => task.id !== taskId)
+    },
+    openModal() {
+      this.isVisible = true
+    },
+    createTask(task) {
+      this.todoList.push(task)
+      this.isVisible = false
     }
   }
 }
